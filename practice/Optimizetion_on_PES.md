@@ -1,17 +1,45 @@
 # Optimizetion on Potential Energy Surface
-> *produced by H. Nabata*
+> *created by H. Nabata*
 > 
 > *- 2022/03/18 uploaded*
 
+<div align="center">
+  
+●　　　●　　　●
+
+</div>
 
 ## What is potential energy surface (PES)?
-
 
 > Atoms in a molecule are held together by chemical bonds. When the atom is distorted, the bonds are stretched or compressed, in which increases the potential energy of its system. As the new geometry is formed, the molecule stays stationary. Therefore, the energy of the system is not caused by the kinetic energy, but depending on the position of the atoms (potential). Energy of a molecule is a function of the position of the nuclei. When nuclei moves, electron readjusts quickly. The relationship between this molecular energy and molecular geometry (position) is mapped out with potential energy surface.
 > (refer to [this page](https://chem.libretexts.org/Bookshelves/Physical_and_Theoretical_Chemistry_Textbook_Maps/Supplemental_Modules_(Physical_and_Theoretical_Chemistry)/Quantum_Mechanics/11%3A_Molecules/Potential_Energy_Surface))
 
+<div align="center">
+  
+●　　　●　　　●
+
+</div>
+
+化合物の構造は立体的、つまり3次元的な構造であり、各原子の位置（座標）を決めれば化合物の構造が一意に定まります。化合物の持っているエネルギーの値は各原子の3次元座標によって変化し、一種の多変数関数として扱うことができます。これは化合物の構造とエネルギーとが1対1で対応しているためです。
+
+>>「励起状態を考えると1価関数でないのでは？」と疑問に思われた方は鋭いですね。確かに、より高いエネルギー準位にある電子状態まで含めると、エネルギーは3次元構造に対して多価な関数と捉えられますが、ここでは基底状態にのみ注目し、励起状態の話を一旦置いておきましょう。同様にスピン状態の話も脇に置いておきます。
+
+N原子分子のエネルギー（ポテンシャル）の関数は、分子の並進と回転の次元を除いた「3N-6次元の曲面」を成すものと考えます。このような多次元（一般には3次元以上）の曲面は「超曲面」と呼ばれています。「構造最適化」の計算はこの「超曲面」（「ポテンシャルエネルギー超曲面」とも言います）の上にある極小点を探す数学的操作に対応します。*なかなか頭の中では想像できませんが…。*
+
+化学種の反応は、ポテンシャルエネルギー曲面（PES）に基づいて理論的に調べることができます。
+
+<div align="center">
+  
+●　　　●　　　●
+
+</div>
 
 ## Purpose of this text
+
+今回は理論化学の世界で良く知られている2次元ポテンシャルである "Müller-Brown potential"（ミューラー･ブラウン ポテンシャル）を題材として、最急降下法とニュートン法によって停留点を探索するプログラムを書いてみます。
+
+* * *
+
 * Implement the steepest descent method to find a minimum on PES from an arbitrary initial point.
 * Implement Newton's method to find a saddle point from an initial point near the saddle point.
 
@@ -36,6 +64,12 @@ The 2D image of this potential is shown below.
 We use ***[Python](https://www.python.org/)*** to implement the optimization with gradient methods. Python is a high-level and versatile programming language, and Python’s ecosystem provides a rich set of frameworks, tools, and libraries that allow you to write almost any kind of application.
 
 One of the advantages of writing programs in Python is the availability of many open source libraries such as Numpy and Matplotlib. This means that optimization methods can be implemented in very simple steps.
+
+<div align="center">
+  
+●　　　●　　　●
+
+</div>
 
 ## Implementation
 
@@ -268,7 +302,11 @@ The 2D image of the trajectory is shown below.
 
 ```
 
-* * *
+<div align="center">
+  
+●　　　●　　　●
+
+</div>
 
 ## Acknowledge
 * https://tex-image-link-generator.herokuapp.com/
