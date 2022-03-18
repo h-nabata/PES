@@ -22,12 +22,12 @@
 
 化合物の構造は立体的、つまり3次元的な構造であり、各原子の位置（座標）を決めれば化合物の構造が一意に定まります。化合物の持っているエネルギーの値は各原子の3次元座標によって変化し、一種の多変数関数として扱うことができます。これは化合物の構造とエネルギーとが1対1で対応しているためです。
 
-> ここでは断熱近似を暗に仮定しており、原子核の運動に即座に電子状態が追随するものと見なしています。
->> また、「励起状態を考えると1価関数でないのでは？」と疑問に思われた方は鋭いですね。確かに、より高いエネルギー準位にある電子状態まで含めると、エネルギーは3次元構造に対して多価な関数と捉えられますが、ここでは基底状態にのみ注目し、励起状態の話を一旦置いておきましょう。同様にスピン状態の話も脇に置いておきます。
+> ここでは断熱近似を暗に仮定しており、原子核の運動に対して即座に電子状態が追随するものと見なしています。
+>> 「励起状態を考えると1価関数でないのでは？」と疑問に思われた方は鋭いですね。確かに、より高いエネルギー準位にある電子状態まで含めると、エネルギーは3次元構造に対して多価な関数と捉えられますが、ここでは基底状態にのみ注目し、励起状態の話を一旦置いておきましょう。同様にスピン状態の話も脇に置いておきます。
 
 N原子分子のエネルギー（ポテンシャル）の関数は、分子の並進と回転の次元を除いた「3N-6次元の曲面」を成すものと考えます。このような多次元（一般には3次元以上）の曲面は「超曲面」と呼ばれています。「構造最適化」の計算はこの「超曲面」（「ポテンシャルエネルギー超曲面」とも言います）の上にある極小点を探す数学的操作に対応します。*なかなか頭の中では想像できませんが…。*
 
-化学反応はポテンシャルエネルギー曲面（PES）に基づいて理論的に調べることができます。
+化学反応はポテンシャルエネルギー曲面（PES）に基づいて理論的に調べることができます。いきなり実際の分子を相手にして多次元の空間を考えるのは難しいので、練習として2次元のポテンシャルを考えることにしましょう。
 
 <div align="center">
   
@@ -211,7 +211,7 @@ The 2D image of the trajectory is shown below.
 
 Next, let's implement Newton's method. The concept of optimizetion by using Newton's method is explained in [this wiki page "Newton's method in optimization"](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization).
 
-Firstly, you should determine the initial coordinates. In Newton's method, coordinates are update by using the gradient vector and the hessian matrix, so it does not require step size.
+Firstly, you should determine the initial coordinates. In Newton's method, coordinates are updated by using the gradient vector and the hessian matrix, so it does not require step size.
 
 ```py
 ### 初期設定
@@ -304,8 +304,8 @@ The 2D image of the trajectory is shown below.
 ### 【課題】
 1. 初期点を変えることですべての極小点と鞍点を特定する。
 2. 鞍点において固有値と固有ベクトルを求めて虚の振動方向を特定する。
-3. ②で求めた虚の振動方向に対して、最急降下法を用いて得られるIRC経路を図示する。
-4. 以下の式で定義されるポテンシャル面についても同様に解析してみよう。
+3. 鞍点を初期点として2.で求めた虚の振動方向に対して微小に動かし、最急降下法を用いてポテンシャル面を下ってみる。このときの軌跡はIRC経路に一致するので、これを図示してみよう。
+4. 以下の式で定義されるポテンシャル面についても同様の手順で解析してみよう。
 ```
 def f(x, y):
     # nabata potential 1
