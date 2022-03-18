@@ -27,7 +27,7 @@
 
 N原子分子のエネルギー（ポテンシャル）の関数は、分子の並進と回転の次元を除いた「3N-6次元の曲面」を成すものと考えます。このような多次元（一般には3次元以上）の曲面は「超曲面」と呼ばれています。「構造最適化」の計算はこの「超曲面」（「ポテンシャルエネルギー超曲面」とも言います）の上にある極小点を探す数学的操作に対応します。*なかなか頭の中では想像できませんが…。*
 
-化学種の反応は、ポテンシャルエネルギー曲面（PES）に基づいて理論的に調べることができます。
+化学反応はポテンシャルエネルギー曲面（PES）に基づいて理論的に調べることができます。
 
 <div align="center">
   
@@ -196,6 +196,7 @@ surf_y = np.linspace(-1.0, 2.5, 300)
 xmesh, ymesh = np.meshgrid(surf_x, surf_y)
 surf_z = f(xmesh, ymesh)
 cont = plt.contourf(surf_x, surf_y, surf_z, levels=level, cmap='coolwarm')
+plt.colorbar()
 plt.show()
 ```
 
@@ -269,6 +270,7 @@ surf_y = np.linspace(-1.0, 2.5, 300)
 xmesh, ymesh = np.meshgrid(surf_x, surf_y)
 surf_z = f(xmesh, ymesh)
 cont = plt.contourf(surf_x, surf_y, surf_z, levels=level, cmap='coolwarm')
+plt.colorbar()
 plt.show()
 ```
 
