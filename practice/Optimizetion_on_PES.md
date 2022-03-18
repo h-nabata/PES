@@ -322,6 +322,8 @@ def f(x, y):
 ![f(x, y)=\frac{1}{10} e^{\sin (x-2)+\cos y}+\frac{1}{10} e^{\sin (x-y)-\cos y}+\frac{1}{10} e^{\sin y+3 \cos (x+y)}+\frac{1}{1000} e^{x^{2}+\frac{y^{2}}{6}}
 ](https://render.githubusercontent.com/render/math?math=%5Ccolor%7Bblack%7D%5Cdisplaystyle+f%28x%2C+y%29%3D%5Cfrac%7B1%7D%7B10%7D+e%5E%7B%5Csin+%28x-2%29%2B%5Ccos+y%7D%2B%5Cfrac%7B1%7D%7B10%7D+e%5E%7B%5Csin+%28x-y%29-%5Ccos+y%7D%2B%5Cfrac%7B1%7D%7B10%7D+e%5E%7B%5Csin+y%2B3+%5Ccos+%28x%2By%29%7D%2B%5Cfrac%7B1%7D%7B1000%7D+e%5E%7Bx%5E%7B2%7D%2B%5Cfrac%7By%5E%7B2%7D%7D%7B6%7D%7D%0A)
 
+![NBpot1](https://github.com/h-nabata/image_storage/blob/bd9d763ae00ae4f287cd7dad38807350c3fbf2f2/MBpot4.svg "Nabata potential no. 1")
+  
 </div>
 
 <div align="center">
