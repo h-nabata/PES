@@ -52,9 +52,13 @@ N原子分子のエネルギー（ポテンシャル）の関数は、分子の�
 In this text, we adopt the Müller-Brown potential as a sample PES. The Müller-Brown potential is one of the simple 2D potentials proposed by K. Miiller and L. D. Brown in [their paper in 1979](https://link.springer.com/content/pdf/10.1007/BF00547608.pdf).
 The Müller-Brown potential is given as below.
 
+<div align="center">
+  
 ![\begin{align*}
 \sum_{i} A_{i} \exp \left[a_{i}\left(x-p_{i}\right)^{2}+b_{i}\left(x-p_{i}\right)\left(y-q_{i}\right)+c_{i}\left(y-q_{i}\right)^{2}\right]
 \end{align*}](https://render.githubusercontent.com/render/math?math=%5Ccolor%7Bblack%7D%5Cdisplaystyle+%5Cbegin%7Balign%2A%7D%0A%5Csum_%7Bi%7D+A_%7Bi%7D+%5Cexp+%5Cleft%5Ba_%7Bi%7D%5Cleft%28x-p_%7Bi%7D%5Cright%29%5E%7B2%7D%2Bb_%7Bi%7D%5Cleft%28x-p_%7Bi%7D%5Cright%29%5Cleft%28y-q_%7Bi%7D%5Cright%29%2Bc_%7Bi%7D%5Cleft%28y-q_%7Bi%7D%5Cright%29%5E%7B2%7D%5Cright%5D%0A%5Cend%7Balign%2A%7D)
+  
+</div>
 
 where (A) = (-200/-100/-170/15), (a) = (-1/-1/-6.5/0.7), (b) = (0/0/11/0.6), (c) = (-10/-10/-6.5/0.7), (p) =(1/0/-0.5/-1), (q) = (0/0.5/1.5/1).
 
@@ -310,6 +314,13 @@ def f(x, y):
         s.append(A[i]*np.exp(a[i]))
     return sum(s)
 ```
+
+<div align="center">
+
+![f(x, y)=\frac{1}{10} e^{\sin (x-2)+\cos y}+\frac{1}{10} e^{\sin (x-y)-\cos y}+\frac{1}{10} e^{\sin y+3 \cos (x+y)}+\frac{1}{1000} e^{x^{2}+\frac{y^{2}}{6}}
+](https://render.githubusercontent.com/render/math?math=%5Ccolor%7Bblack%7D%5Cdisplaystyle+f%28x%2C+y%29%3D%5Cfrac%7B1%7D%7B10%7D+e%5E%7B%5Csin+%28x-2%29%2B%5Ccos+y%7D%2B%5Cfrac%7B1%7D%7B10%7D+e%5E%7B%5Csin+%28x-y%29-%5Ccos+y%7D%2B%5Cfrac%7B1%7D%7B10%7D+e%5E%7B%5Csin+y%2B3+%5Ccos+%28x%2By%29%7D%2B%5Cfrac%7B1%7D%7B1000%7D+e%5E%7Bx%5E%7B2%7D%2B%5Cfrac%7By%5E%7B2%7D%7D%7B6%7D%7D%0A)
+
+</div>
 
 <div align="center">
   
