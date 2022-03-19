@@ -485,7 +485,7 @@ def fyy(f, x, y):
 
 ```py
 ### 初期設定
-(xc, yc) = ( 0.6235 , 0.0280 )             # 初期座標（＝初期構造）
+(xc, yc) = ( 0.6234994 , 0.0280378 )    # 初期座標（＝初期構造）
 xc_list = []; yc_list = []; ene_list = []  # 座標を格納するリストを用意する
 ene_list = []                              # エネルギーを格納するリストを用意する
 addint_xc_list = []; addint_yc_list = []   # 改変したPES用に座標を格納するリストを用意する
@@ -570,7 +570,7 @@ local_max_id = argrelmax(np.array(ene_list), order=5)
 local_max_id_list = local_max_id[0]
 print("-----------------\nThe # of App. TS found = ", len(local_max_id_list))
 for i in range(len(local_max_id_list)):
-    print("App. TS", i, "(", addint_xc_list[local_max_id_list[i]], ",", addint_xc_list[local_max_id_list[i]], ")")
+    print("App. TS", i, "(", addint_xc_list[local_max_id_list[i]], ",", addint_yc_list[local_max_id_list[i]], ")")
     print("Energy (bare) =", pes(addint_xc_list[local_max_id_list[i]], addint_yc_list[local_max_id_list[i]]))
 
 plt.plot([i for i in range(len(ene_list))], ene_list)
@@ -581,11 +581,11 @@ plt.show()
 
 > The # of App. TS found =  2
 > 
-> App. TS 0 ( 0.23335787851086576 , 0.23335787851086576 )
+> App. TS 0 ( 0.23335787851086576 , 0.2994986937775166 )
 > 
 > Energy (bare) = -72.14008703460848
 > 
-> App. TS 1 ( -0.7314387998850193 , -0.7314387998850193 )
+> App. TS 1 ( -0.7314387998850193 , 0.6996159003161693 )
 > 
 > Energy (bare) = -37.696718520002925
 
