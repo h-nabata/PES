@@ -330,7 +330,7 @@ def f(x, y):
 # Chapter 2
 ポテンシャル面が多峰性の場合、停留点は複数存在します。それらをすべて見つけるには多数の初期点を用意して最適化計算を行わなければなりません。例えば、初期点を格子状に1.0間隔で100個用意して、そこからポテンシャル面を下るという「グリッド探索」が考えられます。実際、この方法によって所期の目的は達せられますが、100回も計算しなければいけないという点で非効率です。また、今回のような2次元のポテンシャルならば現実的な時間内で計算できますが、これが例えば10次元空間になるとグリッド点は10の10乗（=100億）個も必要となり、これでは到底計算が終わりません。
 
-そこで、グリッド探索よりも効率良くPES上の停留点を見つける方法を考えてみます。
+そこで、以下ではグリッド探索よりも効率良くPES上の停留点を見つける方法を考えてみましょう。
 
 <div align="center">
   
@@ -338,10 +338,10 @@ def f(x, y):
 
 </div>
   
-ところで、多峰性のPES上の極小点は、別の極小点と最小エネルギー経路（Minimum Energy Path; MEP）で結ばれています。これは、盆地に位置する2つの町が峠道で繋がっている様子を想像すると、何となくイメージできると思います。簡単に言えば、MEPは2次元のPESで言うところの「谷底の経路」"valley path" に相当しています（※）。
+多峰性のPES上の極小点は、別の極小点と最小エネルギー経路（Minimum Energy Path; MEP）で結ばれています。これは、盆地に位置する2つの町が峠道で繋がっている様子を想像すると、何となくイメージできると思います。簡単に言えば、MEPは2次元のPESで言うところの「谷底の経路」"valley path" に相当しています（※）。
 
 > （※）
-> ただし、MEPは "valley path" と表現するよりも "path of least resistance"（最小抵抗経路）と表現するのが適切と言えます。通常、谷底は曲面の曲率が小さい方向に伸びていますが、これを辿ったからといって、峠（ここでは「遷移状態」）に到達するとは限らないからです。実際の反応経路は峠を経由するような「最小エネルギー経路」と言えます。
+> ただし、MEPは "valley path" と表現するよりも "path of least resistance"（最小抵抗経路）と表現するのが適切と言えます。通常、谷底は曲面の曲率が小さい方向に伸びていますが、これを辿ったからといって、峠（ここでは「遷移状態」）に到達するとは限らないからです。実際の反応経路は「***峠を経由するような***最小エネルギー経路」と言えます。
 > 
 > (cf.) [Dunitz, J. D.: *Phil. Trans. R. Soc. Lond.* B272, 99 (1975)](https://www.jstor.org/stable/pdf/2417520.pdf)
 
@@ -364,7 +364,7 @@ MEPは2点間法を用いて求めるのが一般的です。以下に幾つか�
 
 化学反応を特徴づける反応経路は、福井謙一（フロンティア軌道理論を考案した業績により、1981年にノーベル化学賞を受賞）によって「固有反応座標」として数学的に定式化されました。これを "IRC"（Intrinsic Reaction Coordinate）と呼びます。
 
-IRC経路は簡単に言ってしまうとPES上における最急降下経路として定義できます（正確には、質量荷重座標空間における最小エネルギー経路）。IRC経路は遷移状態を始点とし、遷移状態における虚の振動モードに沿って降下した先の2つの極小点を接続します。
+IRC経路は簡単に言ってしまうと、PES上における最急降下経路として定義できます（正確には、質量荷重座標空間における最小エネルギー経路）。IRC経路は遷移状態を始点とし、遷移状態における虚の振動モードに沿ってポテンシャル面を降下した先の2つの極小点を接続します。
 
 > （※）IRC は、遷移状態を始点として、荷重ヘシアン行列の負の固有値に対応する方向に原子座標を変位させ、ポテンシャル勾配の負の方向に軌跡をたどることによりポテンシャル曲面の極小点に至る仮想的な反応経路、と定義されます。
 
@@ -376,24 +376,322 @@ IRC経路は簡単に言ってしまうとPES上における最急降下経路�
 
 </div>
 
-一般に、ポテンシャル面の極小点における情報のみから鞍点を見つけ出すことは**数学的に不可能**であることが証明されています。そのため、遷移状態の決定には計算者による予測が必要です。
+残念ながら、ポテンシャル面の極小点における情報のみから鞍点を見つけ出すことは**数学的に不可能**であることが証明されています。そのため、遷移状態の決定には計算者による予測が必要です。
 
 > プログラムによる「反応経路探索」が主流になる前は、計算者が「遷移状態っぽい構造」を手で作って初期構造としていました。遷移状態は停留点なのでニュートン法によって求めることができますが、初期構造が悪いと全く鞍点に収束しません。遷移状態を求める計算は職人技が要求される作業だったのです。
 
 さて、ここで少し、PES上の既知の極小点から**未知の極小点**を見つける手法について考えてみます。何らかの方法で既知の極小点から新しい極小点を見つけることができれば、上述した2点間法を適用して遷移状態を見つけることができそうです。
 しかし、PES上の既知の極小点から未知の極小点を狙って見つけ出すという操作は、これまで不可能とされてきました。仮にできたとしてもランダムなサンプリングか、グラフ理論に基づく構造生成がせいぜいでした。
 
-そんな折、2003年に大野公一と前田理は「[極座標内挿法](https://www.sciencedirect.com/science/article/pii/S0009261403017135)」という手法を発表しました。これは後にADDF法（非調和下方歪追究法）と呼ばれる反応経路自動探索アルゴリズムの原型となるコンセプトでした。
+そんな折、2003年に大野公一と前田理は「[極座標内挿法](https://www.sciencedirect.com/science/article/pii/S0009261403017135)」という手法を発表しました。これは後にADDF法（非調和下方歪み追跡法）と呼ばれる反応経路自動探索アルゴリズムの原型となるコンセプトでした。
 
 "ADD" というのは非調和下方歪み（Anharmonic Downward Distortion）の頭文字です。大野らは「極小点から離れるにつれて調和ポテンシャルよりも下側に歪む」というPESの性質に着目し、このADDが化学反応経路の進行方向に相当することを見出しました。極小点周辺のADDを検出して追跡（Following）することで、計算者の予測に依らない反応経路探索を実現しました。
 
-> なお、化学反応の全面探索の試みは以前から為されています。
+> なお、化学反応の全面探索の試みそのものは以前から為されています。
 > - 最小の固有値に着目して反応経路を探す Eigenvector Following法：EF法
 > - 勾配が極値をとる条件を満たす点を停留点から辿る Gradient Extremal Following法：GEF法
 > - 極小点を中心とする球面上のエネルギー最小点を球面を拡大しながら追跡する Sphere Optimization法：SO法
 > (cf.) Pancíř, J. *Collect. Czech. Chem. Commun.* 1975, **40**, 1112–1118 / Abashkin, Y.; Russo, N. *J. Chem. Phys.* 1994, **100**, 4477–4483.
 
+ADDF法は優れた手法ですが、PESの3次微分の情報が必要となるため計算コストが馬鹿になりません。原子数の多い大きな系ではその制約がより顕著に現れてしまいます。
 
+これを克服した画期的な手法として、2010年に前田理と諸熊奎治が開発した[AFIR法（Artificial Force Induced Reaction method；人工力誘起反応法）](https://aip.scitation.org/doi/10.1063/1.3457903)があります。これは、化学反応における反応物同士に仮想的な引力や斥力に相当するポテンシャルを加えることで、PES上の遷移状態の構造を特定する、という手法です。
+
+
+<div align="center">
+　
+<img src="https://github.com/h-nabata/image_storage/blob/16c09a0a30d4cc5a0d7a7dda386fb5198b30893d/AFIRmethod.svg" width="400" title="a schematic illustration of AFIR method">
+  
+</div>
+
+
+図を見て分かる通り、AFIR法では人工力を加えて改変したポテンシャル面上における構造最適化のみを必要とすることから、これまでの手法に比べて格段に計算コストが削減されています。改変後のPESがバリアレスになるような適切なパラメータを選択することで、既存の極小点（平衡構造；EQ）から未知の生成物を第一原理的に得ることができます。
+
+なお、この最適化計算で得られる構造は人工力を加えて改変したPES上の極小点（Approximate EQ）なので、真のEQではありません。この App. EQ を初期構造としてオリジナルのPES上で再び最適化を行うことで、真のEQを得ます。
+
+また、構造最適化と同時にオリジナルのPESを追跡し、得られるエネルギープロファイルのピークから遷移状態の候補（Path Top）を特定することができます。これにより得られる近似的遷移状態（Approximate TS）をGuessとすれば、遷移状態が効率的に求められます。
+
+<div align="center">
+  
+●　　　●　　　●
+
+</div>
+
+実際のAFIR法では、絶妙なバランスで設計された「AFIR関数」によって、上手い具合にフラグメント間に人工力が加えられます。ここでは、再びMüller-Brownポテンシャルを題材として「なんちゃってAFIR法」を実装してみることにします。
+
+どのようにPESを改変するかがポイントとなる訳ですが、ここでは大雑把に、x軸方向、y軸方向のそれぞれにPESを傾けるような「なんちゃってAFIR関数」を加えてみましょう。
+
+```py
+### importing libraries, ライブラリのインポート
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.signal import argrelmax
+```
+
+The Müller-Brown potential is defined as below.
+
+```py
+### Müller-Brownポテンシャルの定義
+def f(x, y):
+    # Müller & Brown potential, https://doi.org/10.1007/BF00547608
+    A=[-200.0, -100.0, -170.0, 15.0]
+    a=[-1.0, -1.0, -6.5, 0.7]
+    b=[0.0, 0.0, 11.0, 0.6]
+    c=[-10.0, -10.0, -6.5, 0.7]
+    p=[1.0, 0.0, -0.5, -1.0]
+    q=[0.0, 0.5, 1.5, 1.0]
+    s = []
+    for i in range(4):
+        s.append(A[i]*np.exp(a[i]*(x-p[i])**2+b[i]*(x-p[i])*(y-q[i])+c[i]*(y-q[i])**2))
+    return sum(s)
+```
+
+人工力関数を以下のように定義します。
+
+```py
+### Müller-Brownポテンシャルの定義
+def addint(x, y):
+    a = 60.0
+    b = -120.0
+    return pes(x, y) + a*x + b*y
+```
+
+Definition of partial derivatives and those of the second order by numerical differentiation. 人工力を加えたり取り除いたりしやすいように、偏導関数には関数を引数に加えています。
+
+```py
+### 数値微分による偏導関数、2階の偏導関数の定義
+def fx(f, x, y):
+    h = 0.0000001
+    return (f(x+h, y)-f(x-h, y))/(2*h)
+
+def fy(f, x, y):
+    h = 0.0000001
+    return (f(x, y+h)-f(x, y-h))/(2*h)
+
+def fxx(f, x, y):
+    h = 0.0000001
+    return (fx(f, x+h, y)-fx(f, x-h, y))/(2*h)
+
+def fxy(f, x, y):
+    h = 0.0000001
+    return (fx(f, x, y+h)-fx(f, x, y-h))/(2*h)
+
+def fyy(f, x, y):
+    h = 0.0000001
+    return (fy(f, x, y+h)-fy(f, x, y-h))/(2*h)
+```
+
+初期構造は極小点の一つとしています。
+
+```py
+### 初期設定
+(xc, yc) = ( 0.6235 , 0.0280 )             # 初期座標（＝初期構造）
+xc_list = []; yc_list = []; ene_list = []  # 座標を格納するリストを用意する
+ene_list = []                              # エネルギーを格納するリストを用意する
+addint_xc_list = []; addint_yc_list = []   # 改変したPES用に座標を格納するリストを用意する
+stepsize = 1e-4                            # STEP幅
+maxitr = 10000                             # 座標更新サイクルの上限回数
+```
+
+The steepest descent method requires the gradient vector at each point on the PES to calculate the direction of descent. The termination condition for updating coordinates is that the magnitude of the gradient falls below an appropriate threshold.
+
+```py
+### steepest descent method 最急降下法 on 人工力を加えたPES
+for i in range(1, maxtimes):
+    times = i
+    diffx1 = fx(addint, xc, yc)
+    diffy1 = fy(addint, xc, yc)
+    if np.sqrt(diffx1 ** 2 + diffy1 ** 2) < 1e-10:
+        addint_xc_list.append(xc); addint_yc_list.append(yc)  # 座標をリストに追加
+        ene_list.append(pes(xc, yc))  # AFIR経路に沿ったエネルギー値をリストに追加
+        break
+    else:
+        addint_xc_list.append(xc); addint_yc_list.append(yc)  # 座標をリストに追加
+        ene_list.append(pes(xc, yc))  # AFIR経路に沿ったエネルギー値をリストに追加
+        xc = xc - stepsize * diffx1   # 次のx座標を生成
+        yc = yc - stepsize * diffy1   # 次のy座標を生成
+
+print("Optimization on modified PES finished!\n( itr =", times, ")\n(", xc, ",", yc,")")
+print("Energy (a.f.) =", addint(xc, yc))
+print("Grad (a.f.)   =", np.sqrt(fx(addint, xc, yc) ** 2 + fy(addint, xc, yc) ** 2))
+print("Energy (bare) =", pes(xc, yc))
+print("Grad (bare)   =", np.sqrt(fx(pes, xc, yc) ** 2 + fy(pes, xc, yc) ** 2))
+```
+
+> Optimization on modified PES finished!
+> 
+> ( itr = 2137 )
+> 
+> ( -0.5102233301489391 , 1.534199743630532 )
+> 
+> Energy (a.f.) = -357.3215991434462
+> 
+> Grad (a.f.)   = 0.0
+> 
+> Energy (bare) = -142.60423009884602
+> 
+> Grad (bare)   = 134.16407875612578
+
+
+ここで、「なんちゃってAFIR関数」を加えて改変したPES上における最適化の結果を図示してみます。
+
+```py
+### 人工力を加えたPES
+plt.plot(addint_xc_list, addint_yc_list, 'y.-', alpha=0.2)            # trajectory
+plt.plot(addint_xc_list[0], addint_yc_list[0], 'b.-', alpha=0.2)      # initial point
+plt.plot(addint_xc_list[-1], addint_yc_list[-1], 'r.-', alpha=0.2)    # terminal point
+
+surf_x = np.linspace(-3.0, 1.5, 300)
+surf_y = np.linspace(-1.0, 3.5, 300)
+xmesh, ymesh = np.meshgrid(surf_x, surf_y)
+z = addint(xmesh, ymesh)
+level = []
+for i in range(0,25):
+    level.append(np.min(z) + (100-np.min(z))*0.04*i)
+cont = plt.contourf(surf_x, surf_y, z, levels=level, cmap='coolwarm')
+plt.colorbar()
+plt.show()
+```
+
+<div align="center">
+  
+![MBpot_AFIR1](https://github.com/h-nabata/image_storage/blob/02ed88b9364c469e19524774bb0e844992e555e6/MBpot_AFIR1.svg "AFIR path on the modified Müller-Brown potential")
+
+</div>
+
+ここで得られた経路を「AFIR経路」と呼びます。この経路をオリジナルのPES上で辿ったときのエネルギープロファイルを図示してみます。ついでにピークも検出しておきましょう。
+
+```py
+### AFIR経路上のピークを検出する
+local_max_id = argrelmax(np.array(ene_list), order=5)
+# order: How many points on each side to use for the comparison to consider;
+# この値を大きくすることでノイズを回避する
+
+local_max_id_list = local_max_id[0]
+print("-----------------\nThe # of App. TS found = ", len(local_max_id_list))
+for i in range(len(local_max_id_list)):
+    print("App. TS", i, "(", addint_xc_list[local_max_id_list[i]], ",", addint_xc_list[local_max_id_list[i]], ")")
+    print("Energy (bare) =", pes(addint_xc_list[local_max_id_list[i]], addint_yc_list[local_max_id_list[i]]))
+
+plt.plot([i for i in range(len(ene_list))], ene_list)
+for i in range(len(local_max_id_list)):   # App. TS point(s)
+    plt.plot(local_max_id_list[i], ene_list[local_max_id_list[i]], 'kx')
+plt.show()
+```
+
+> -----------------
+> 
+> The # of App. TS found =  2
+> 
+> App. TS 0 ( 0.23335787851086576 , 0.23335787851086576 )
+> 
+> Energy (bare) = -72.14008703460848
+> 
+> App. TS 1 ( -0.7314387998850193 , -0.7314387998850193 )
+> 
+> Energy (bare) = -37.696718520002925
+
+横軸にiteration数、縦軸にEnergyをとると、以下のようになります。ピークが2つ出現しているのが分かります。
+
+<div align="center">
+  
+![MBpot_AFIR2](https://github.com/h-nabata/image_storage/blob/02ed88b9364c469e19524774bb0e844992e555e6/MBpot_AFIR2.svg "energy profile along the AFIR path")
+
+</div>
+
+最後に、Approximate EQを初期構造としてオリジナルのPES上で再び最適化を行い、真のEQを求めてみます。トラジェクトリの図示まで一気にやってしまいましょう。
+
+```py
+### steepest descent method 最急降下法 on オリジナルのPES
+xc_list.append(xc); yc_list.append(yc)  # 人工力を加えたPES上での終点をリストに追加
+for i in range(1, maxtimes):
+    times = i
+    diffx1 = fx(pes, xc, yc)
+    diffy1 = fy(pes, xc, yc)
+    if np.sqrt(diffx1 ** 2 + diffy1 ** 2) < 1e-10:
+        xc_list.append(xc); yc_list.append(yc)  # 座標をリストに追加
+        break
+    else:
+        xc_list.append(xc); yc_list.append(yc)  # 座標をリストに追加
+        xc = xc - stepsize * diffx1   # 次のx座標を生成
+        yc = yc - stepsize * diffy1   # 次のy座標を生成
+
+print("-----------------\nOptimization on original PES finished!\n( itr =", times, ")\n(", xc, ",", yc,")")
+print("Energy (bare) =", pes(xc, yc))
+print("Grad (bare)   =", np.sqrt(fx(pes, xc, yc) ** 2 + fy(pes, xc, yc) ** 2))
+
+# 元のPES
+plt.plot(addint_xc_list, addint_yc_list, 'y.-', alpha=0.1)            # trajectory
+plt.plot(addint_xc_list[0], addint_yc_list[0], 'b.-', alpha=0.2)      # initial point
+plt.plot(addint_xc_list[-1], addint_yc_list[-1], 'r.-', alpha=0.2)    # terminal point
+for i in range(len(local_max_id_list)):   # App. TS point(s)
+    plt.plot(addint_xc_list[local_max_id_list[i]], addint_yc_list[local_max_id_list[i]], 'kx', alpha=0.7)
+plt.plot(xc_list, yc_list, 'g.-', alpha=0.3)            # trajectory
+plt.plot(xc_list[0], yc_list[0], 'b.-', alpha=0.8)      # initial point
+plt.plot(xc_list[-1], yc_list[-1], 'r.-', alpha=0.5)    # terminal point
+
+surf_x = np.linspace(-3.0, 1.5, 300)
+surf_y = np.linspace(-1.0, 3.5, 300)
+xmesh, ymesh = np.meshgrid(surf_x, surf_y)
+z = pes(xmesh, ymesh)
+level = []
+for i in range(-15,10):
+    level.append(10.0 * i)
+cont = plt.contourf(surf_x, surf_y, z, levels=level, cmap='coolwarm')
+plt.colorbar()
+plt.show()
+```
+
+> -----------------
+> 
+> Optimization on original PES finished!
+> 
+> ( itr = 483 )
+> 
+> ( -0.5582236345379455 , 1.4417258419566479 )
+> 
+> Energy (bare) = -146.699517209954
+> 
+> Grad (bare)   = 0.0
+
+The 2D image of the trajectory is shown below. ピークに該当する点にバツ印を付けてみました。遷移状態に近い点を通過しているのが分かりますね！
+<div align="center">
+  
+![MBpot_AFIR3](https://github.com/h-nabata/image_storage/blob/02ed88b9364c469e19524774bb0e844992e555e6/MBpot_AFIR3.svg "AFIR path and final optimization")
+
+</div>
+
+このようにして見つかったAppriximate TSを初期構造としてニュートン法を適用すれば、遷移状態を得ることができます。さらにはIRCが得られ、Müller-Brownポテンシャルの完全な「反応経路ネットワーク」を得ることができます。
+
+* * *
+
+ところで、上記の「なんちゃって反応経路探索」は偶然上手くいった例に過ぎません。というのも、AFIR関数のパラメータを変えると、とんでもないトラジェクトリが得られてしまう場合もあるからです。
+
+そこで例えば人工力関数を以下のように定義するとどうなるでしょうか？aとbの値を先ほどの5倍にしています。
+
+```py
+### Müller-Brownポテンシャルの定義
+def addint(x, y):
+    a = 300.0
+    b = -600.0
+    return pes(x, y) + a*x + b*y
+```
+
+同様に最適化を実行して結果をプロットしてみると以下のようになります。
+
+<div align="center">
+  
+![MBpot_AFIR4](https://github.com/h-nabata/image_storage/blob/f8731b3ff76342972ac46c15e575d9995e5f7e52/MBpot_AFIR4.svg "AFIR path on the modified Müller-Brown potential")
+
+![MBpot_AFIR5](https://github.com/h-nabata/image_storage/blob/76c8eda82d22a172c5023659b80adb8c8a04f5cc/MBpot_AFIR5.svg "energy profile along the AFIR path")
+
+![MBpot_AFIR6](https://github.com/h-nabata/image_storage/blob/76c8eda82d22a172c5023659b80adb8c8a04f5cc/MBpot_AFIR6.svg "AFIR path and final optimization")
+  
+</div>
+
+なかなかダイナミックな経路が得られてしまいました。このように、パラメータが不適切だと得られる経路も不適切なものになってしまいます。実際にGRRMプログラムで指定するGammaの値でも同様のことが起こります。Gammaの値はおおよその活性化障壁の高さに相当しています。100 kJ/mol 程度の反応経路に対して、例えば `Gamma=1000` などの巨大な値にしてしまうと、IRC経路からひどく逸脱したAFIR経路が得られてしまいます。
+
+適切な人工力のパラメータを選ぶことも勿論重要なことですが、得られたAFIR経路をできるだけIRC経路に近付けるような最適化（エネルギーの緩和）の手法が必要となります。是非、2Dポテンシャルでの経路緩和も実装してみて欲しいと思います。
 
 ## Acknowledge
 * https://tex-image-link-generator.herokuapp.com/
