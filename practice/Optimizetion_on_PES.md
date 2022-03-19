@@ -1,7 +1,8 @@
 # Optimizetion on Potential Energy Surface
 > *created by H. Nabata*
 > 
-> *- 2022/03/18 uploaded*
+> *- 2022/03/18 Uploaded*
+> *- 2022/03/20 Chapter 2 was added 2*
 
 <div align="center">
   
@@ -650,7 +651,7 @@ plt.show()
 > 
 > Grad (bare)   = 0.0
 
-The 2D image of the trajectory is shown below. ピークに該当する点にバツ印を付けてみました。遷移状態に近い点を通過しているのが分かりますね！
+ピークに該当する点にバツ印を付けてみました。遷移状態に近い点を通過しているのが分かりますね！
 <div align="center">
   
 ![MBpot_AFIR3](https://github.com/h-nabata/image_storage/blob/02ed88b9364c469e19524774bb0e844992e555e6/MBpot_AFIR3.svg "AFIR path and final optimization")
@@ -691,7 +692,7 @@ def addint(x, y):
 
 なかなかダイナミックな経路が得られてしまいました。このように、パラメータが不適切だと得られる経路も不適切なものになってしまいます。実際にGRRMプログラムで指定するGammaの値でも同様のことが起こります。Gammaの値はおおよその活性化障壁の高さに相当しています。100 kJ/mol 程度の反応経路に対して、例えば `Gamma=1000` などの巨大な値にしてしまうと、IRC経路からひどく逸脱したAFIR経路が得られてしまいます。
 
-適切な人工力のパラメータを選ぶことも勿論重要なことですが、得られたAFIR経路をできるだけIRC経路に近付けるような最適化（エネルギーの緩和）の手法が必要となります。是非、2Dポテンシャルでの経路緩和も実装してみて欲しいと思います。
+適切な人工力のパラメータを選ぶことも勿論重要なことですが、得られたAFIR経路をできるだけIRC経路に近付けるような最適化（エネルギーの緩和）の手法が必要となります。是非、2Dポテンシャルでの経路緩和も実装してみて下さい。
 
 <div align="center">
   
@@ -699,6 +700,9 @@ def addint(x, y):
 
 </div>
 
-## Acknowledge
-* https://tex-image-link-generator.herokuapp.com/
+## Notes
+内容に関する著作権は作成者に帰属します。無断での複製や再配布などを禁じます。
 
+## Acknowledgement and References
+* https://tex-image-link-generator.herokuapp.com/
+* [化学反応経路の自動探索](https://www.jstage.jst.go.jp/article/molsci/5/1/5_1_A0042/_pdf/-char/ja)
