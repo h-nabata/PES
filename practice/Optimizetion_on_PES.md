@@ -80,7 +80,7 @@ One of the advantages of writing programs in Python is the availability of many 
 
 </div>
 
-## Implementation
+## Implementation (the steepest descent method)
 
 This program needs to import two libraries, Numpy and Matplotlib.
 
@@ -207,7 +207,8 @@ The 2D image of the trajectory is shown below.
 
 </div>
 
-* * *
+
+## Implementation (Newton's method)
 
 Next, let's implement Newton's method. The concept of optimizetion by using Newton's method is explained in [this wiki page "Newton's method in optimization"](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization).
 
@@ -301,7 +302,7 @@ The 2D image of the trajectory is shown below.
 
 以上の内容を踏まえ、以下の課題に挑戦してみよう。
 
-### 【課題】
+## Exercise 1
 1. 初期点を変えることですべての極小点と鞍点を特定する。
 2. 鞍点において固有値と固有ベクトルを求めて虚の振動方向を特定する。
 3. 鞍点を初期点として2.で求めた虚の振動方向に対して微小に動かし、最急降下法を用いてポテンシャル面を下ってみる。このときの軌跡はIRC経路に一致するので、これを図示してみよう。
@@ -326,12 +327,7 @@ def f(x, y):
   
 </div>
 
-<div align="center">
   
-●　　　●　　　●
-
-</div>
-
 ## Acknowledge
 * https://tex-image-link-generator.herokuapp.com/
 
