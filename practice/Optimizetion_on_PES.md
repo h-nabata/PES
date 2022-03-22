@@ -40,18 +40,16 @@ N原子分子のエネルギー（ポテンシャル）の関数は、分子の�
 
 2次元ポテンシャルの場合、停留点には極小点、極大点、鞍点の3種類が存在し、鞍点には遷移状態に相当する「1次の鞍点」と、["Monkey saddle"](https://en.wikipedia.org/wiki/Monkey_saddle) と呼ばれる「2次の鞍点」が存在します。PES上に存在するこれらの点を特定することは化学反応を理論的に議論する上で重要です。
 
-今回は理論化学の世界で良く知られている2次元ポテンシャルである "Müller-Brown potential"（ミューラー･ブラウン ポテンシャル）を題材として、最急降下法とニュートン法によって停留点を探索するプログラムを書いてみます。このMüller-Brown potentialは3つの極小点（minima）、2つの1次の鞍点が（saddles）を有する多峰性のポテンシャル面です。
+今回は理論化学の世界で良く知られている2次元ポテンシャルである ["Müller-Brown potential"]((https://link.springer.com/content/pdf/10.1007/BF00547608.pdf))（ミューラー･ブラウン ポテンシャル）を題材として、最急降下法とニュートン法によって停留点を探索するプログラムを書いてみます。このMüller-Brown potentialは3つの極小点（minima）、2つの1次の鞍点が（saddles）を有する多峰性のポテンシャル面です。
 
 ここではPythonを使用して、勾配法による最適化を実装することにします。Pythonは汎用性の高いプログラミング言語であり、様々なライブラリを利用できます。これにより、最適化手法を簡単な手順で実装することができます。
 
-* * *
-
-* Implement the steepest descent method to find a minimum on PES from an arbitrary initial point.
+<!-- * Implement the steepest descent method to find a minimum on PES from an arbitrary initial point.
 * Implement Newton's method to find a saddle point from an initial point near the saddle point.
 
 
 In this text, we adopt the Müller-Brown potential as a sample PES. The Müller-Brown potential is one of the simple 2D potentials proposed by K. Miiller and L. D. Brown in [their paper in 1979](https://link.springer.com/content/pdf/10.1007/BF00547608.pdf).
-The Müller-Brown potential is given as below.
+The Müller-Brown potential is given as below. -->
 
 <div align="center">
   
@@ -63,17 +61,17 @@ The Müller-Brown potential is given as below.
 
 where (A) = (-200/-100/-170/15), (a) = (-1/-1/-6.5/0.7), (b) = (0/0/11/0.6), (c) = (-10/-10/-6.5/0.7), (p) =(1/0/-0.5/-1), (q) = (0/0.5/1.5/1).
 
-
-The 2D image of this potential is shown below.
+このポテンシャルの2D画像を以下に示します。
+<!-- The 2D image of this potential is shown below. -->
 <div align="center">
   
 ![MDpot](https://github.com/h-nabata/image_storage/blob/fa44d488018f68358cabe15ffc16881bb0e061d7/MBpot1.svg "Müller-Brown potential")
 
 </div>
 
-We use ***[Python](https://www.python.org/)*** to implement the optimization with gradient methods. Python is a high-level and versatile programming language, and Python’s ecosystem provides a rich set of frameworks, tools, and libraries that allow you to write almost any kind of application.
+<!-- We use ***[Python](https://www.python.org/)*** to implement the optimization with gradient methods. Python is a high-level and versatile programming language, and Python’s ecosystem provides a rich set of frameworks, tools, and libraries that allow you to write almost any kind of application.
 
-One of the advantages of writing programs in Python is the availability of many open source libraries such as Numpy and Matplotlib. This means that optimization methods can be implemented in very simple steps.
+One of the advantages of writing programs in Python is the availability of many open source libraries such as Numpy and Matplotlib. This means that optimization methods can be implemented in very simple steps. -->
 
 <div align="center">
   
@@ -83,7 +81,8 @@ One of the advantages of writing programs in Python is the availability of many 
 
 ## Implementation (the steepest descent method)
 
-This program needs to import two libraries, Numpy and Matplotlib.
+このプログラムでは、NumpyとMatplotlibという2つのライブラリをインポートする必要があります。
+<!-- This program needs to import two libraries, Numpy and Matplotlib. -->
 
 ```py
 ### importing libraries, ライブラリのインポート
@@ -91,7 +90,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 ```
 
-The Müller-Brown potential is defined as below.
+ミュラー・ブラウン・ポテンシャルは以下のように定義されます。
+<!-- The Müller-Brown potential is defined as below. -->
 
 ```py
 ### Müller-Brownポテンシャルの定義
@@ -109,7 +109,8 @@ def f(x, y):
     return sum(s)
 ```
 
-Definition of partial derivatives and those of the second order by numerical differentiation.
+数値微分による1次の偏微分と2次の偏微分を定義します。
+<!-- Definition of partial derivatives and those of the second order by numerical differentiation. -->
 
 ```py
 ### 数値微分による偏導関数の定義
@@ -137,7 +138,8 @@ def fyy(x, y):
     return (fy(x, y+h)-fy(x, y-h))/(2*h)
 ```
 
-Now, let's implement the steepest descent method. First, the initial coordinates must be determined. In general PES, this point corresponds to the initial structure of the molecule(s). The appropriate step size for this case is 1e-4 (=0.0001), and the maximum number of iterations for updating coordinates should be set to 10000.
+では、最急降下法を実装してみましょう。まず、初期座標を決定する必要があります。一般的なPESでは、この点が分子の初期構造に相当しています。今回の最適化計算における適切なステップ幅は1e-4 (=0.0001)で、座標更新の上限回数は10000回に設定します。
+<!-- Now, let's implement the steepest descent method. First, the initial coordinates must be determined. In general PES, this point corresponds to the initial structure of the molecule(s). The appropriate step size for this case is 1e-4 (=0.0001), and the maximum number of iterations for updating coordinates should be set to 10000. -->
 
 ```py
 ### 初期設定
@@ -147,7 +149,8 @@ stepsize = 1e-4   # STEP幅
 maxitr = 10000  # 座標更新サイクルの上限回数
 ```
 
-The steepest descent method requires the gradient vector at each point on the PES to calculate the direction of descent. The termination condition for updating coordinates is that the magnitude of the gradient falls below an appropriate threshold.
+最急降下法では降下方向を計算するためにPES上の各点における勾配ベクトルを計算する必要があります。座標の更新の終了条件は「勾配の大きさが適切な閾値を下回ること」とします。
+<!-- The steepest descent method requires the gradient vector at each point on the PES to calculate the direction of descent. The termination condition for updating coordinates is that the magnitude of the gradient falls below an appropriate threshold. -->
 
 ```py
 ### 最急降下法による極小点の探索
@@ -166,7 +169,8 @@ for i in range(1, maxitr):  # 上限回数まで座標更新を続ける
         yc = yc - stepsize * diffy
 ```
 
-Then, print out the output of the program.
+プログラムの実行結果を出力します。
+<!-- Then, print out the output of the program. -->
 
 ```py
 ### 最急降下法による最適化の結果を出力
@@ -178,7 +182,8 @@ print("Energy =", f(xc, yc), ", Gradient =", np.sqrt(diffx ** 2 + diffy ** 2))
 > 
 > Energy = -146.69951720995402 , Gradient = 0.0
 
-Let's visualize the trajectory of descending course from the initial point.
+初期点から下降していく軌跡を可視化してみましょう。
+<!-- Let's visualize the trajectory of descending course from the initial point. -->
 
 ```py
 ### 初期点からの最急降下経路の図示
@@ -201,19 +206,32 @@ plt.colorbar()
 plt.show()
 ```
 
-The 2D image of the trajectory is shown below.
+2Dの画像は以下のようになります。
+<!-- The 2D image of the trajectory is shown below. -->
 <div align="center">
   
 ![MDpot](https://github.com/h-nabata/image_storage/blob/518beb88011362d257143411b2f4c748eb9c9412/MBpot2.svg "trajectory with the steepest descent method")
 
 </div>
 
+3Dの画像は以下のようになります。
+<!-- The 3D image of the trajectory is shown below. -->
+<div align="center">
+  
+![MDpot_3d](https://github.com/h-nabata/image_storage/blob/cbce1495f56ea868535c5819385a977c8623ad6f/MBpot6.svg "trajectory with the steepest descent method")
+
+</div>
+
 
 ## Implementation (Newton's method)
 
-Next, let's implement Newton's method. The concept of optimizetion by using Newton's method is explained in [this wiki page "Newton's method in optimization"](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization).
+次に、ニュートン法を実装してみましょう。ニュートン法を用いた最適化の考え方は、["Newton's method in optimization"](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization)で説明されています。詳しくはこちらのページを参照してください。
 
-Firstly, you should determine the initial coordinates. In Newton's method, coordinates are updated by using the gradient vector and the hessian matrix, so it does not require step size.
+まず、初期座標を決めます。ニュートン法では勾配ベクトルとヘシアン行列のみを用いて座標を更新するので、ステップ幅の指定は必要ありません。
+
+<!-- Next, let's implement Newton's method. The concept of optimizetion by using Newton's method is explained in [this wiki page "Newton's method in optimization"](https://en.wikipedia.org/wiki/Newton%27s_method_in_optimization).
+
+Firstly, you should determine the initial coordinates. In Newton's method, coordinates are updated by using the gradient vector and the hessian matrix, so it does not require step size. -->
 
 ```py
 ### 初期設定
@@ -243,7 +261,8 @@ for i in range(1, maxitr):
         yc = yc - stepsize * y_element
 ```
 
-Then, print out the output.
+結果を出力します。
+<!-- Then, print out the output. -->
 
 ```py
 ### ニュートン法による最適化の結果を出力
@@ -276,7 +295,8 @@ plt.colorbar()
 plt.show()
 ```
 
-The 2D image of the trajectory is shown below.
+トラジェクトリの2D画像は以下の通りです。
+<!-- The 2D image of the trajectory is shown below. -->
 <div align="center">
   
 ![MDpot](https://github.com/h-nabata/image_storage/blob/daf15bc091000caff5d523c328c818d8df5f6887/MBpot3.svg "trajectory with Newton's method")
@@ -420,7 +440,7 @@ ADDF法は優れた手法ですが、PESの3次微分の情報が必要となる
 
 実際のAFIR法では、絶妙なバランスで設計された「AFIR関数」によって、上手い具合にフラグメント間に人工力が加えられます。ここでは、再びMüller-Brownポテンシャルを題材として「なんちゃってAFIR法」を実装してみることにします。
 
-どのようにPESを改変するかがポイントとなる訳ですが、ここでは大雑把に、x軸方向、y軸方向のそれぞれにPESを傾けるような「なんちゃってAFIR関数」を加えてみましょう。
+どのようにPESを改変するかがポイントとなる訳ですが、ここでは大雑把に考えて、x軸方向、y軸方向のそれぞれにPESを傾けるような「なんちゃってAFIR関数」を加えてみましょう。
 
 ```py
 ### importing libraries, ライブラリのインポート
@@ -428,8 +448,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import argrelmax
 ```
-
-The Müller-Brown potential is defined as below.
 
 ```py
 ### Müller-Brownポテンシャルの定義
@@ -457,7 +475,7 @@ def addint(x, y):
     return pes(x, y) + a*x + b*y
 ```
 
-Definition of partial derivatives and those of the second order by numerical differentiation. 人工力を加えたり取り除いたりしやすいように、偏導関数には関数を引数に加えています。
+人工力を加えたり取り除いたりしやすいように、偏導関数には関数を引数に加えています。
 
 ```py
 ### 数値微分による偏導関数、2階の偏導関数の定義
@@ -494,7 +512,8 @@ stepsize = 1e-4                            # STEP幅
 maxitr = 10000                             # 座標更新サイクルの上限回数
 ```
 
-The steepest descent method requires the gradient vector at each point on the PES to calculate the direction of descent. The termination condition for updating coordinates is that the magnitude of the gradient falls below an appropriate threshold.
+最急降下法では降下方向を計算するためにPES上の各点における勾配ベクトルを計算する必要があります。座標の更新の終了条件は「勾配の大きさが適切な閾値を下回ること」とします。
+<!-- The steepest descent method requires the gradient vector at each point on the PES to calculate the direction of descent. The termination condition for updating coordinates is that the magnitude of the gradient falls below an appropriate threshold. -->
 
 ```py
 ### steepest descent method 最急降下法 on 人工力を加えたPES
@@ -668,7 +687,9 @@ plt.show()
 
 ところで、上記の「なんちゃって反応経路探索」は偶然上手くいった例に過ぎません。というのも、AFIR関数のパラメータを変えると、とんでもないトラジェクトリが得られてしまう場合もあるからです。
 
-そこで例えば人工力関数を以下のように定義するとどうなるでしょうか？aとbの値を先ほどの5倍にしています。
+そこで例えば人工力関数を以下のように定義するとどうなるでしょうか？
+
+aとbの値を先ほどの**5倍**にしています。
 
 ```py
 ### なんちゃってAFIR関数の定義　その２
