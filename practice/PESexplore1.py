@@ -43,7 +43,16 @@ def surface_plotting(f, xc_list, yc_list, zc_list, linecolor, cmapname):
     my_wire = art3d.Line3DCollection(segs, alpha = 0.5, cmap=cmapname)
     my_wire.set_array(scalars)
     ax.add_collection(my_wire)
-    # plt.colorbar(my_wire) # option
+    # plt.colorbar(my_wire) # カラーバーを表示する
+    # ax.set_xticks([]) # ３Dプロットの軸目盛を消す
+    # ax.set_yticks([])
+    # ax.set_zticks([])
+    # ax.grid(False) # ３Dプロットの背景のグリッドを消す
+    # ax.w_xaxis.set_pane_color((0., 0., 0., 0.)) # ３Dプロットの背景色を消す
+    # ax.w_yaxis.set_pane_color((0., 0., 0., 0.))
+    # ax.w_zaxis.set_pane_color((0., 0., 0., 0.))
+    # ax.axis("off") # option
+    # ax.axis("off") # 軸と背景全消し
     plt.show()
 
 
@@ -85,7 +94,7 @@ def surface_plotting2(f, f2, xc_list, yc_list, zc_list, xc_list2, yc_list2, zc_l
     ax.add_collection(my_wire)
 
     ### 2nd function
-    shift_ene = zc_list[-1] - zc_list2[-1]# + 200
+    shift_ene = zc_list[-1] - zc_list2[-1] + 20
     ax.plot3D(xc_list2, yc_list2, zc_list2 + shift_ene, linewidth=1, color=linecolor2)
     ax.scatter(xc_list2[-1], yc_list2[-1], zc_list2[-1] + shift_ene, marker=".", color="r", linestyle='None')
 
@@ -119,7 +128,15 @@ def surface_plotting2(f, f2, xc_list, yc_list, zc_list, xc_list2, yc_list2, zc_l
     my_wire = art3d.Line3DCollection(segs, alpha = 0.2, cmap="plasma")
     my_wire.set_array(scalars)
     ax.add_collection(my_wire)
-    # plt.colorbar(my_wire) # option
+    # plt.colorbar(my_wire) # カラーバーを表示する
+    # ax.set_xticks([]) # ３Dプロットの軸目盛を消す
+    # ax.set_yticks([])
+    # ax.set_zticks([])
+    # ax.grid(False) # ３Dプロットの背景のグリッドを消す
+    # ax.w_xaxis.set_pane_color((0., 0., 0., 0.)) # ３Dプロットの背景色を消す
+    # ax.w_yaxis.set_pane_color((0., 0., 0., 0.))
+    # ax.w_zaxis.set_pane_color((0., 0., 0., 0.))
+    # ax.axis("off") # 軸と背景全消し
     plt.show()
 
 def fx(f, x, y):
@@ -167,8 +184,8 @@ def pes(x, y):
 def addint(x, y):
     # a = -0.6
     # b = -0.4
-    a = -20.0
-    b = 20.0
+    a = 150.0
+    b = -150.0
     return pes(x, y) + a*x + b*y
 
 # surf_x = np.linspace(-3.5, 3.5, 300)
@@ -183,7 +200,7 @@ def addint(x, y):
 # plt.show()
 
 # input section
-(xc, yc) = ( 0.8 , -0.2 )
+(xc, yc) = ( 0.623 , 0.028 )
 xc_list = []; yc_list = []
 ene_list = []; original_ene_list = []; addint_ene_list = []
 addint_xc_list = []; addint_yc_list = []
