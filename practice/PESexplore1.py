@@ -181,13 +181,25 @@ def pes(x, y):
 #         s.append(A[i]*np.exp(a[i]))
 #     return sum(s)
 
-def addint(x, y):
-    # a = -0.6
-    # b = -0.4
-    a = 150.0
+def addint(x, y):  # 人工力を加える操作（なんちゃってAFIR関数）
+    a = 150.0   # for MB potential
     b = -150.0
-    return pes(x, y) + a*x + b*y
+    # a = -0.6  # for NB potential 1
+    # b = -0.4
+    return pes(x, y) + a*x + b*y  # x, y方向に定比例する項を付け加える
 
+
+##############################################################
+#                       input section                        #
+##############################################################
+(xc, yc) = ( 0.623 , 0.028 )
+xc_list = []; yc_list = []
+ene_list = []; original_ene_list = []; addint_ene_list = []
+addint_xc_list = []; addint_yc_list = []
+stepsize = 0.0001
+maxtimes = 10000
+
+# MBポテンシャル曲面 (トラジェクトリ無し)
 # surf_x = np.linspace(-3.5, 3.5, 300)
 # surf_y = np.linspace(-7.5, 7.5, 300)
 # xmesh, ymesh = np.meshgrid(surf_x, surf_y)
@@ -199,13 +211,10 @@ def addint(x, y):
 # plt.colorbar()
 # plt.show()
 
-# input section
-(xc, yc) = ( 0.623 , 0.028 )
-xc_list = []; yc_list = []
-ene_list = []; original_ene_list = []; addint_ene_list = []
-addint_xc_list = []; addint_yc_list = []
-stepsize = 0.0001
-maxtimes = 10000
+
+##############################################################
+#                         最急降下法                          #
+##############################################################
 
 # steepest descent method 最急降下法 on 人工力を加えたPES
 for i in range(1, maxtimes):
@@ -338,7 +347,7 @@ surface_plotting2(pes, addint, addint_xc_list, addint_yc_list, original_ene_list
 # sys.exit()
 
 ##############################################################
-#                        ニュートン法                        #
+#                        ニュートン法                         #
 ##############################################################
 
 # print(len(local_max_id_list))
