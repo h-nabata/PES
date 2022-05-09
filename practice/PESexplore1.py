@@ -381,6 +381,15 @@ for h in range(len(local_max_id_list)):
     ### ニュートン法による最適化の結果を出力
     print("Terminal point = (", xc, ",", yc,") , Iteration =", iteration)
     print("Energy =", pes(xc, yc), ", Gradient =", np.sqrt(diffx ** 2 + diffy ** 2))
+    
+    # ヘッセ行列
+    Hessian = np.array([[fxx(pes, xc, yc),fxy(pes, xc, yc)],[fxy(pes, xc, yc),fyy(pes, xc, yc)]])
+    # 固有値・固有ベクトルをそれぞれeig_val, eig_vecに格納
+    eig_val, eig_vec = np.linalg.eig(Hessian)
+    # 固有値
+    print(eig_val)
+    # 固有ベクトル
+    print(eig_vec)
 
     ### 初期点からニュートン法で辿った経路の図示
     plt.plot(xc_list, yc_list, 'g.-', alpha=0.3)            # trajectory
@@ -402,14 +411,6 @@ for h in range(len(local_max_id_list)):
     cont = plt.contourf(surf_x, surf_y, z, levels=level, cmap='coolwarm')
     plt.colorbar()
     plt.show()
-    # ヘッセ行列
-    Hessian = np.array([[fxx(pes, xc, yc),fxy(pes, xc, yc)],[fxy(pes, xc, yc),fyy(pes, xc, yc)]])
-    # 固有値・固有ベクトルをそれぞれeig_val, eig_vecに格納
-    eig_val, eig_vec =np.linalg.eig(Hessian)
-    # 固有値
-    print(eig_val)
-    # 固有ベクトル
-    print(eig_vec)
 
 
 ### stationary points on MB potential
