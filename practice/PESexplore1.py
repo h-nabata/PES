@@ -402,6 +402,14 @@ for h in range(len(local_max_id_list)):
     cont = plt.contourf(surf_x, surf_y, z, levels=level, cmap='coolwarm')
     plt.colorbar()
     plt.show()
+    # ヘッセ行列
+    Hessian = np.array([[fxx(pes, xc, yc),fxy(pes, xc, yc)],[fxy(pes, xc, yc),fyy(pes, xc, yc)]])
+    # 固有値・固有ベクトルをそれぞれeig_val, eig_vecに格納
+    eig_val, eig_vec =np.linalg.eig(Hessian)
+    # 固有値
+    print(eig_val)
+    # 固有ベクトル
+    print(eig_vec)
 
 
 ### stationary points on MB potential
