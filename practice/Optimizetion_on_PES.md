@@ -391,7 +391,7 @@ def f(x, y):
 > （※）
 > ただし、MEPは "valley path" と表現するよりも "path of least resistance"（最小抵抗経路）と表現するのが適切と言えます。通常、谷底は曲面の曲率が小さい方向に伸びていますが、これを辿ったからといって、峠（ここでは「遷移状態」）に到達するとは限らないからです。実際の反応経路は「***峠を経由するような***最小エネルギー経路」と言えます。
 > 
-> (cf.) [Dunitz, J. D.: *Phil. Trans. R. Soc. Lond.* B272, 99 (1975)](https://www.jstor.org/stable/pdf/2417520.pdf)
+> (cf.) [Dunitz, J. D.: *Phil. Trans. R. Soc. Lond.* B272, 99 (1975)](https://www.jstor.org/stable/2417520)
 
 MEPは2点間法を用いて求めるのが一般的です。以下に幾つかの2点間法を列挙します。
 
